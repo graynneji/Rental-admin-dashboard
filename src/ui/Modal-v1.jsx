@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
-import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -65,53 +63,14 @@ const Button = styled.button`
 //keep working normally.
 //this is greate and generally used for all elements that we want to stay
 //ontop of other element so things like modal window, tooltips, menus and so on.
-const ModalContext = createContext();
-function Modal({ children }) {
-  const [openName, setOpenName] = useState("");
-
-  const close = () => setOpenName("");
-  const open = setOpenName;
-
-  return (
-    <ModalContext.Provider value={{ openName, open, close }}>
-      {children}
-    </ModalContext.Provider>
-  );
-}
-
-function Open({ children, opens: opensWindowName }) {
-  const { open } = useContext(ModalContext);
-  return cloneElement(children, { onClick: () => open(opensWindowName) });
-}
-
-function Window({ children, name }) {
-  const { openName, close } = useContext(ModalContext);
-
-  //click outside the modal use a ref
-  const ref = useOutsideClick(close);
-  // const ref = useRef();
-  // useEffect(
-  //   function () {
-  //     function handleClick(e) {
-  //       //if the ref.current does not contain the event that was clicked close the modal
-  //       if (ref.current && !ref.current.contains(e.target)) close();
-  //     }
-  //     document.addEventListener("click", handleClick, true);
-
-  //     return () => document.removeEventListener("click", handleClick, true);
-  //   },
-  //   [close]
-  // );
-
-  if (name !== openName) return null;
-
+function Modal({ children, onClose }) {
   return createPortal(
     <Overlay>
-      <StyledModal ref={ref}>
-        <Button onClick={close}>
+      <StyledModal>
+        <Button onClick={onClose}>
           <HiXMark />
         </Button>
-        <div>{cloneElement(children, { onCloseModal: close })}</div>
+        <div>{children}</div>
       </StyledModal>
     </Overlay>,
     //DOM node where we want to render this jsx
@@ -119,8 +78,5 @@ function Window({ children, name }) {
     //or document.querySelector()
   );
 }
-
-Modal.Open = Open;
-Modal.Window = Window;
 
 export default Modal;

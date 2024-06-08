@@ -1,20 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { createEditCabin } from "../../services/apiCabins";
+import { updateSetting as updateSettingAPI } from "../../services/apiSettings";
 
-export function useEditCabin() {
+export function useUpdateSetting() {
   const queryClient = useQueryClient();
 
   //EDIT CABIN
-  const { isLoading: isEditing, mutate: editCabin } = useMutation({
+  const { isLoading: isUpdating, mutate: updateSetting } = useMutation({
     // mutationFn: newcabin=> createCabin(newcabin),
-    mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
+    mutationFn: updateSettingAPI,
     onSuccess: () => {
       toast.success("setting successfully edited");
-      queryClient.invalidateQueries({ querykey: ["cabins"] });
+      queryClient.invalidateQueries({ querykey: ["settings"] });
       //   reset();
     },
     onError: (err) => toast.error(err.message),
   });
-  return { isEditing, editCabin };
+  return { isUpdating, updateSetting };
 }
