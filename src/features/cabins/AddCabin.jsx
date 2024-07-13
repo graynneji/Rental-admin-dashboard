@@ -26,22 +26,24 @@ import CreateCabinForm from "./CreateCabinForm";
 //using a compound component to create our modal
 function AddCabin() {
   return (
-    <Modal>
-      <Modal.Open opens="cabin-form">
-        <Button>Add new cabin</Button>
-      </Modal.Open>
-      <Modal.Window name="cabin-form">
-        <CreateCabinForm />
-      </Modal.Window>
+    <div>
+      <Modal>
+        <Modal.Open opens="cabin-form">
+          <Button>Add new cabin</Button>
+        </Modal.Open>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm />
+        </Modal.Window>
 
-      {/* multiple modal window */}
-      {/* <Modal.Open opens="table">
+        {/* multiple modal window */}
+        {/* <Modal.Open opens="table">
         <Button>Show table</Button>
-      </Modal.Open>
-      <Modal.Window name="table">
+        </Modal.Open>
+        <Modal.Window name="table">
         <CabinTable />
       </Modal.Window> */}
-    </Modal>
+      </Modal>
+    </div>
   );
 }
 
