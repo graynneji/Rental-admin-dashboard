@@ -13,6 +13,11 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { useNavigate } from "react-router-dom";
+import { HiArrowUpOnSquare } from "react-icons/hi2";
+import { useCheckout } from "../check-in-out/useCheckout";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "./useDeleteBooking";
 const HeadingGroup = styled.div`
   display: flex;
   gap: 2.4rem;
@@ -21,6 +26,9 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
+  const { checkout, isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+
   // const status = "checked-in";
   const navigate = useNavigate();
 
@@ -51,6 +59,37 @@ function BookingDetail() {
             Check in
           </Button>
         )}
+
+        {status === "checked-in" && (
+          <Button
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => {
+              checkout(bookingId);
+            }}
+            disabled={isCheckingOut}
+          >
+            Check out
+          </Button>
+        )}
+
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete booking</Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            {/* pass the component that we want to actually render inside the modal */}
+            <ConfirmDelete
+              resourceName="booking"
+              // the onConifrm prop the callback that will be called when ever we click on the confirm button
+              disabled={isDeleting}
+              onConfirm={() =>
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
+              }
+            />
+          </Modal.Window>
+        </Modal>
 
         <Button variation="secondary" onClick={moveBack}>
           Back
