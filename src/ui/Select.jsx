@@ -16,7 +16,6 @@ const StyledSelect = styled.select`
 `;
 
 function Select({ options, onChange, value, ...props }) {
-  console.log(props);
   //have multiple props spread the them and pass them down into another element ...props
   return (
     <StyledSelect value={value} onChange={onChange} {...props}>
