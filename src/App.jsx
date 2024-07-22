@@ -16,6 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,7 +37,13 @@ function App() {
         <Routes>
           {/* the applayout for all the pages except pagenotfound and login they will have their own layout */}
           {/* this is called a layout route because it doesnt have a path prop */}
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             {/* declaretive redirect - if you want the index page to automatically redirect to the dashboard use the Navigate and redirect */}
             <Route index element={<Navigate replace to="dashboard" />} />
 

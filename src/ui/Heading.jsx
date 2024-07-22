@@ -30,6 +30,14 @@ ${(props) =>
       font-size: 2rem;
       font-weight: 500;
     `} /* font-size: ${10 > 0 ? "30px" : "5px"}; */
+
+${(props) =>
+    props.as === "h4" &&
+    css`
+      font-size: 3rem;
+      font-weight: 600;
+      text-align: center;
+    `} /* font-size: ${10 > 0 ? "30px" : "5px"}; */
 `;
 
 export default Heading;
