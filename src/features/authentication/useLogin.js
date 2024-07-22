@@ -10,8 +10,9 @@ export function useLogin() {
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
       //set some data into the react query cache
-      queryClient.setQueriesData(["user"], user);
-      navigate("/dashboard");
+      queryClient.setQueryData(["user"], user.user);
+      //use the replace true so that back button is not going to not work
+      navigate("/dashboard", { replace: true });
     },
 
     onError: (err) => {
